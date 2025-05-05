@@ -45,6 +45,7 @@ A responsive and interactive **Booking Management System UI** built using **HTML
 [![after-1-changes.png](https://i.postimg.cc/XJ3VLymm/after-1-changes.png)](https://postimg.cc/Y4nKqjpz)
 ![after 1 changes](https://github.com/user-attachments/assets/048986bb-d8a1-4920-ac2d-fe49677a25de)
 ![image](https://github.com/user-attachments/assets/672e3e07-0847-4ce2-9f76-a0874e0a612b)
+https://github.com/raushanweb4/BMS-UI/blob/main/after%201%20changes.png?raw=true
 
 
 
