@@ -43,6 +43,8 @@ A responsive and interactive **Booking Management System UI** built using **HTML
 ## 📷 Screenshots
 ##  after some changes screenshot
 [![after-1-changes.png](https://i.postimg.cc/XJ3VLymm/after-1-changes.png)](https://postimg.cc/Y4nKqjpz)
+![after 1 changes](https://github.com/user-attachments/assets/048986bb-d8a1-4920-ac2d-fe49677a25de)
+
 
 
 
