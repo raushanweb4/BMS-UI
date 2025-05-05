@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+
+    <style>
+        :root {
+            --prime-color: #dd125c;
+            --secon-color: #162849;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            background-color: #f8f9fa;
+            padding: 1rem;
+        }
+
+        .section {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-left: 5px solid var(--prime-color);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section h3 {
+            color: var(--secon-color);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .custom-form-table .section-header th {
+            color: var(--secon-color);
+            text-align: left;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+
+        .custom-select,
+        .custom-input {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            font-size: 0.8rem;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .custom-select:focus,
+        .custom-input:focus {
+            border-color: var(--prime-color);
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(221, 18, 92, 0.2);
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            margin: 0.3rem 0.5rem 0.3rem 0;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+        }
+
+        .btn-update {
+            background-color: #28a745;
+            display: none;
+        }
+
+        .btn-add,
+        .btn-pay {
+            background-color: var(--prime-color);
+        }
+
+        .btn-update-custom {
+            background-color: var(--prime-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-update-custom:hover {
+            background-color: #b20e4a;
+        }
+
+        @media (max-width: 768px) {
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                margin-bottom: 0.5rem;
+            }
+
+            td::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 45%;
+                padding-left: 0.5rem;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+        }
+
+        select.form-select {
+            min-width: 150px;
+        }
+
+        .date-picker-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        #datepicker {
+            padding-right: 30px;
+            /* space for icon */
+        }
+
+        .calendar-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #payment-details td {
+            padding: 4px;
+        }
+
+
+        .payment-block {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+            min-height: 370px;
+        }
+
+        .payment-block .row {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .payment-block .row strong {
+            width: 150px;
+            font-weight: 600;
+        }
+
+        .date-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .calendar-icon {
+            cursor: pointer;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="section" id="seat-allocation">
+        <h3>Seat Allocation</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>No. Of Seats</th>
+                    <th>Seat No</th>
+                    <th>Seat Amount</th>
+                    <th>Markup</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Seat Location</th>
+                    <th>Is Chargeable</th>
+                    <th>Is Commissionable</th>
+                    <th>Is Refundable</th>
+                    <th>Is Seat Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="false">DEL</td>
+                    <td contenteditable="false">BOM</td>
+                    <td contenteditable="false">1</td>
+                    <td contenteditable="false">12A</td>
+                    <td contenteditable="false">500</td>
+                    <td contenteditable="false">50</td>
+                    <td contenteditable="false">550</td>
+                    <td contenteditable="false">Booked</td>
+                    <td contenteditable="false">Window</td>
+                    <td contenteditable="false">Yes</td>
+                    <td contenteditable="false">Yes</td>
+                    <td contenteditable="false">No</td>
+                    <td contenteditable="false">Yes</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+
+    <div class="section" id="baggage-details">
+        <h3>Baggage Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Carry On Baggage</th>
+                    <th>Checked In Baggage</th>
+                    <th>Total Baggage</th>
+                    <th>Markup</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="false">DEL</td>
+                    <td contenteditable="false">BOM</td>
+                    <td contenteditable="false">7kg</td>
+                    <td contenteditable="false">15kg</td>
+                    <td contenteditable="false">22kg</td>
+                    <td contenteditable="false">100</td>
+                    <td contenteditable="false">400</td>
+                    <td contenteditable="false">500</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+
+    <div class="section" id="make-payment">
+        <h3>Make Payment</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment Gateway</th>
+                    <th>Amount</th>
+                    <th>Comment</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Razorpay</option>
+                            <option>Paytm</option>
+                            <option>Cashfree</option>
+                        </select>
+                    </td>
+                    <td><input type="text" placeholder="Enter Amount"></td>
+                    <td><input type="text" placeholder="Enter Comment"></td>
+                    <td><button class="btn btn-pay">Pay</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="section" id="payment-details">
+        <h3>Payment Details</h3>
+        <div class="row">
+            <!-- Column 1: Payment Information -->
+            <div class="col-md-4">
+                <div class="payment-block">
+                    <div class="row"><strong>Payment Gateway:</strong> Razorpay</div>
+                    <div class="row"><strong>Transaction ID:</strong> TXN12345</div>
+                    <div class="row"><strong>Event:</strong>
+                        <select>
+                            <option>Pay</option>
+                            <option>Pay Failed</option>
+                            <option>Refunded</option>
+                            <option>Voided</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Card and Amount Details -->
+            <div class="col-md-4">
+                <div class="payment-block">
+                    <div class="row"><strong>Card Number:</strong> <input type="text" placeholder="Card Number"></div>
+                    <div class="row"><strong>Currency:</strong> <input type="text" placeholder="Currency"></div>
+                    <div class="row"><strong>Amount:</strong> <input type="text" placeholder="Amount"></div>
+                    <div class="row"><strong>Date Time:</strong>
+                        <div class="date-picker-wrapper">
+                            <input type="text" class="date-picker" placeholder="Select date" readonly />
+                            <span class="calendar-icon">&#128197;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3: Action and Agent Information -->
+            <div class="col-md-4">
+                <div class="payment-block">
+                    <div class="row"><strong>Status:</strong> <input type="text" placeholder="Status"></div>
+                    <div class="row"><strong>Agent:</strong> <input type="text" placeholder="Agent"></div>
+                    <div class="row"><strong>Lead:</strong> <input type="text" placeholder="Lead"></div>
+                    <div class="row">
+                        <button class="btn btn-add refund">Refund</button>
+                        <button class="btn btn-add void">Void</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="cbm-amount-details">
+        <h3>CBM Amount Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>CBM Amount</th>
+                    <th>Amount</th>
+                    <th>MCONumber</th>
+                    <th>Declined</th>
+                    <th>No Of Transaction</th>
+                    <th>AttemptedPayment</th>
+                    <th>PaymentSuccessfull</th>
+                    <th>Added CBMPayment</th>
+                    <th>PaymentSuccessfull SubDisposition</th>
+                    <th>ChargedOn</th>
+                    <th>CreatedBy</th>
+                    <th>Modified By</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>CBM Amount</th>
+                    <th>Amount</th>
+                    <td contenteditable="false">MCO123</td>
+                    <td contenteditable="false">Yes</td>
+                    <td contenteditable="false">2</td>
+                    <td contenteditable="false">Yes</td>
+                    <td contenteditable="false">Yes</td>
+                    <td contenteditable="false">1000</td>
+                    <td contenteditable="false">Success</td>
+                    <td contenteditable="false">2024-05-01</td>
+                    <td contenteditable="false">Admin</td>
+                    <td contenteditable="false">Manager</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+
+    <div class="section" id="ticket-issued-details">
+        <h3>Ticket Pending Issued Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Issued Amount</th>
+                    <th>Mode Of Payment</th>
+                    <th>Issued On</th>
+                    <th>Corporate CardNo</th>
+                    <th>CreatedBy</th>
+                    <th>Modified By</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Issued Amount</th>
+                    <th>Mode Of Payment</th>
+                    <td contenteditable="false">2024-05-01</td>
+                    <td contenteditable="false">CARD9988</td>
+                    <td contenteditable="false">Admin</td>
+                    <td contenteditable="false">User1</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+
+    <div class="section" id="system-cheque-details">
+        <h3>System Cheque Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Main Disposition</th>
+                    <th>Total Refund Amount</th>
+                    <th>System Cheque Disposition</th>
+                    <th>Cheque SubDisposition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="false">Pending</td>
+                    <td contenteditable="false">2500</td>
+                    <td contenteditable="false">Refund Cheque</td>
+                    <td contenteditable="false">Awaiting Clearance</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+
+    <div class="section" id="follow-up-disposition">
+        <h3>Follow Up Disposition</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Follow Up Disposition</th>
+                    <th>Required Disposition</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-select">
+                            <option value="">Select Disposition</option>
+                            <option value="callback">Callback</option>
+                            <option value="email_sent">Email Sent</option>
+                            <option value="awaiting_customer">Awaiting Customer Response</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-select">
+                            <option value="">Select Required Disposition</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="followup_24h">Follow Up in 24h</option>
+                            <option value="escalate">Escalate to Supervisor</option>
+                        </select>
+                    </td>
+                    <td>
+                        <textarea class="form-control" rows="2" placeholder="Enter remarks"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-update">Update</button>
+        <button class="btn btn-add">Add</button>
+    </div>
+    <!-- Update Booking Section -->
+    <div class="section" id="update-booking-info">
+        <h3>Update Booking Information</h3>
+        <table class="custom-form-table">
+            <!-- Disposition Section -->
+            <thead>
+                <tr class="section-header">
+                    <th colspan="4">Disposition Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Disposition :</th>
+                    <td colspan="3">
+                        <select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>CSAT Disposition :</th>
+                    <td colspan="3">
+                        <select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+
+            <!-- Payment Status Section -->
+            <thead>
+                <tr class="section-header">
+                    <th colspan="4">Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Quality Check Disposition :</th>
+                    <td><select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select></td>
+                    <th>Pending Refund Disposition :</th>
+                    <td><select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select></td>
+                </tr>
+                <tr>
+                    <th>Payment Attempted :</th>
+                    <td><select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select></td>
+                    <th>Payment Successful :</th>
+                    <td><select class="custom-select" required>
+                            <option value="">Select</option>
+                        </select></td>
+                </tr>
+            </tbody>
+
+            <!-- Amounts Section -->
+            <thead>
+                <tr class="section-header">
+                    <th colspan="4">Amount Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>CBM Amount :</th>
+                    <td><input type="number" class="custom-input" required></td>
+                    <th>Amount :</th>
+                    <td><input type="number" class="custom-input" required></td>
+                </tr>
+                <tr>
+                    <th>NCO Number :</th>
+                    <td><input type="text" class="custom-input" required></td>
+                    <th>Transactions :</th>
+                    <td><input type="text" class="custom-input" required></td>
+                </tr>
+            </tbody>
+
+            <!-- Payment Details -->
+            <thead>
+                <tr class="section-header">
+                    <th colspan="4">Transaction Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Charged On :</th>
+                    <td>
+                        <!-- <input type="date" class="custom-input date-picker" required> -->
+                        <div class="date-picker-wrapper">
+                            <input type="text" class="date-picker" id="datepicker" placeholder="Select date" readonly />
+                            <span class="calendar-icon">&#128197;</span> <!-- Unicode Calendar Icon -->
+                        </div>
+                    </td>
+                    <th>Declined :</th>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="declinedCheck" required>
+                            <label class="form-check-label" for="declinedCheck">Check if declined</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Issued Amount :</th>
+                    <td><input type="number" class="custom-input" required></td>
+                    <th>Payment Mode :</th>
+                    <td><input type="text" class="custom-input" required></td>
+                </tr>
+                <tr>
+                    <th>Corporate CardNo :</th>
+                    <td><input type="text" class="custom-input" required></td>
+                    <th>Issued On :</th>
+                    <td>
+                        <!-- <input type="date" class="custom-input date-picker" required>
+                        <span class="calendar-icon"><i class="fa fa-calendar"></i></span> -->
+
+
+                        <div class="date-picker-wrapper">
+                            <input type="text" class="date-picker" id="datepicker" placeholder="Select date" readonly />
+                            <span class="calendar-icon">&#128197;</span> <!-- Unicode Calendar Icon -->
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+
+            <!-- Submit -->
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-end">
+                        <button class="btn btn-update-custom" data-action="update-all">Update</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-action').click(function () {
+                const action = $(this).data('action');
+                switch (action) {
+                    case 'update-booking':
+                        alert('Updating booking information...');
+                        break;
+                    case 'final-update':
+                        alert('Finalizing updates...');
+                        break;
+                }
+            });
+        });
+    </script>
+    <script>
+        $('.refund').click(function () {
+            alert('Refund action triggered.');
+        });
+
+        $('.void').click(function () {
+            alert('Void action triggered.');
+        });
+
+        $('.btn-edit').click(function () {
+            const section = $(this).closest('.section');
+            section.find('td').attr('contenteditable', 'true').css('background', '#f1f1f1');
+            section.find('.btn-update').show();
+            $(this).hide();
+        });
+
+        $('.btn-update').click(function () {
+            const section = $(this).closest('.section');
+            section.find('td').attr('contenteditable', 'false').css('background', '#fff');
+            section.find('.btn-edit').show();
+            $(this).hide();
+        });
+
+        $('.btn-add').click(function () {
+            const section = $(this).closest('.section');
+            const row = section.find('tbody tr:first').clone();
+            row.find('td').each(function () {
+                $(this).text('').attr('contenteditable', 'true').css('background', '#f1f1f1');
+            });
+            section.find('tbody').append(row);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-update-custom').click(function (e) {
+                e.preventDefault();
+                const formFields = $('#update-booking-info').find('select, input');
+                let isValid = true;
+
+                formFields.each(function () {
+                    if (!this.checkValidity()) {
+                        $(this).css('border-color', 'red');
+                        isValid = false;
+                    } else {
+                        $(this).css('border-color', '');
+                    }
+                });
+
+                if (isValid) {
+                    alert('All fields validated! Updating records...');
+                    // Add AJAX or form submission logic here
+                } else {
+                    alert('Please fill all required fields correctly!');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Flatpickr on date-picker class
+            $(".date-picker").flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                altInput: true,
+                altFormat: "F j, Y - h:i K",
+                time_24hr: false
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</body>
+
+</html>
