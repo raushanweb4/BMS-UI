@@ -216,13 +216,16 @@
         .calendar-icon {
             cursor: pointer;
         }
-        .btn{
+
+        .btn {
             border: 1px solid transparent;
         }
-        .btn:hover{
+
+        .btn:hover {
             border: 1px solid var(--prime-color);
         }
-        tfoot .btn:hover{
+
+        tfoot .btn:hover {
             color: white;
         }
     </style>
@@ -250,6 +253,7 @@
                     <th>Is Commissionable</th>
                     <th>Is Refundable</th>
                     <th>Is Seat Available</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -267,12 +271,14 @@
                     <td contenteditable="false">Yes</td>
                     <td contenteditable="false">No</td>
                     <td contenteditable="false">Yes</td>
+                    <td> <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
 
     <div class="section" id="baggage-details">
@@ -288,6 +294,7 @@
                     <th>Markup</th>
                     <th>Amount</th>
                     <th>Total</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -300,12 +307,14 @@
                     <td contenteditable="false">100</td>
                     <td contenteditable="false">400</td>
                     <td contenteditable="false">500</td>
+                    <td contenteditable="false"><button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
 
     <div class="section" id="make-payment">
@@ -322,14 +331,15 @@
             <tbody>
                 <tr>
                     <td>
-                        <select>
+                        <select class="custom-select">
                             <option>Razorpay</option>
                             <option>Paytm</option>
                             <option>Cashfree</option>
                         </select>
                     </td>
+                    
                     <td><input type="text" placeholder="Enter Amount"></td>
-                    <td><input type="text" placeholder="Enter Comment"></td>
+                    <td> <textarea name="" style="width: 100%; min-height: 100px;" placeholder="Enter Comment" id=""></textarea></td>
                     <td><button class="btn btn-pay">Pay</button></td>
                 </tr>
             </tbody>
@@ -339,52 +349,63 @@
 
     <div class="section" id="payment-details">
         <h3>Payment Details</h3>
-        <div class="row">
-            <!-- Column 1: Payment Information -->
-            <div class="col-md-4">
-                <div class="payment-block">
-                    <div class="row"><strong>Payment Gateway:</strong> Razorpay</div>
-                    <div class="row"><strong>Transaction ID:</strong> TXN12345</div>
-                    <div class="row"><strong>Event:</strong>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment Gateway</th>
+                    <th>Transaction ID</th>
+                    <th>Event</th>
+                    <th>Card Number</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Razorpay</td>
+                    <td>TXN12345</td>
+                    <td>
                         <select>
                             <option>Pay</option>
                             <option>Pay Failed</option>
                             <option>Refunded</option>
                             <option>Voided</option>
                         </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Column 2: Card and Amount Details -->
-            <div class="col-md-4">
-                <div class="payment-block">
-                    <div class="row"><strong>Card Number:</strong> <input type="text" placeholder="Card Number"></div>
-                    <div class="row"><strong>Currency:</strong> <input type="text" placeholder="Currency"></div>
-                    <div class="row"><strong>Amount:</strong> <input type="text" placeholder="Amount"></div>
-                    <div class="row"><strong>Date Time:</strong>
+                    </td>
+                    <td><input type="text" placeholder="Card Number" /></td>
+                    <td><input type="text" placeholder="Currency" /></td>
+                    <td><input type="text" placeholder="Amount" /></td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Date Time</th>
+                    <th>Status</th>
+                    <th>Agent</th>
+                    <th>Lead</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
                         <div class="date-picker-wrapper">
                             <input type="text" class="date-picker" placeholder="Select date" readonly />
                             <span class="calendar-icon">&#128197;</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Column 3: Action and Agent Information -->
-            <div class="col-md-4">
-                <div class="payment-block">
-                    <div class="row"><strong>Status:</strong> <input type="text" placeholder="Status"></div>
-                    <div class="row"><strong>Agent:</strong> <input type="text" placeholder="Agent"></div>
-                    <div class="row"><strong>Lead:</strong> <input type="text" placeholder="Lead"></div>
-                    <div class="row">
+                    </td>
+                    <td><input type="text" placeholder="Status" /></td>
+                    <td><input type="text" placeholder="Agent" /></td>
+                    <td><input type="text" placeholder="Lead" /></td>
+                    <td colspan="2">
                         <button class="btn btn-add refund">Refund</button>
                         <button class="btn btn-add void">Void</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
 
     <div class="section" id="cbm-amount-details">
         <h3>CBM Amount Details</h3>
@@ -403,6 +424,7 @@
                     <th>ChargedOn</th>
                     <th>CreatedBy</th>
                     <th>Modified By</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -419,12 +441,14 @@
                     <td contenteditable="false">2024-05-01</td>
                     <td contenteditable="false">Admin</td>
                     <td contenteditable="false">Manager</td>
+                    <td contenteditable="false"><button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
 
     <div class="section" id="ticket-issued-details">
@@ -438,6 +462,7 @@
                     <th>Corporate CardNo</th>
                     <th>CreatedBy</th>
                     <th>Modified By</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -448,12 +473,14 @@
                     <td contenteditable="false">CARD9988</td>
                     <td contenteditable="false">Admin</td>
                     <td contenteditable="false">User1</td>
+                    <td contenteditable="false"><button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
 
     <div class="section" id="system-cheque-details">
@@ -465,6 +492,8 @@
                     <th>Total Refund Amount</th>
                     <th>System Cheque Disposition</th>
                     <th>Cheque SubDisposition</th>
+                    <th>Action</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -473,12 +502,14 @@
                     <td contenteditable="false">2500</td>
                     <td contenteditable="false">Refund Cheque</td>
                     <td contenteditable="false">Awaiting Clearance</td>
+                    <td contenteditable="false"><button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
 
     <div class="section" id="follow-up-disposition">
@@ -489,6 +520,7 @@
                     <th>Follow Up Disposition</th>
                     <th>Required Disposition</th>
                     <th>Remarks</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -512,12 +544,14 @@
                     <td>
                         <textarea class="form-control" rows="2" placeholder="Enter remarks"></textarea>
                     </td>
+                    <td contenteditable="false"><button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-update">Update</button>
+                        <button class="btn btn-add">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-update">Update</button>
-        <button class="btn btn-add">Add</button>
+
     </div>
     <!-- Update Booking Section -->
     <div class="section" id="update-booking-info">
